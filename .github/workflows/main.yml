@@ -3,26 +3,27 @@ name: Build LaTeX PDF
 on:
   push:
     branches:
-      - main # 你的分支名，如果是 master 请改成 master
+      - main  # 根据你的分支名调整
 
 jobs:
   build-latex:
     runs-on: ubuntu-latest
     
     steps:
-      # 1. 先拉取你的代码仓库
+      # 1. 拉取代码
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. 下面就是你刚才复制的那段代码（去掉了开头的 -，因为它已经在 steps 列表里了）
+      # 2. 编译 LaTeX（你之前的步骤）
       - name: GitHub Action for LaTeX
         uses: xu-cheng/latex-action@v4
         with:
-          # 【重要】把 main.tex 改成你实际的 tex 主文件名！
           root_file: main.tex
-          
-          # 如果你的中文论文报错找不到字体，可以把下面这行前面的 # 删掉
-          # extra_system_packages: "fonts-noto-cjk"
-          
-          # 如果你需要用 xelatex 编译，取消下面这行的注释
-          # latexmk_use_xelatex: true
+          # 其他配置（如 pre_compile 等）保持不变
+
+      # 3. 上传生成的 PDF（新增步骤）
+      - name: Upload PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: PDF
+          path: main.pdf
