@@ -1,38 +1,28 @@
-- name: GitHub Action for LaTeX
-  # You may pin to the exact commit or the version.
-  # uses: xu-cheng/latex-action@6549dc21effb2730855a1281407ecfcececc6c1b
-  uses: xu-cheng/latex-action@v4
-  with:
-    # TeXLive version to use
-    texlive_version: # optional
-    # Base operating system for the TeXLive Docker image ('alpine' or 'debian')
-    os: # optional, default is alpine
-    # Custom Docker image to use
-    docker_image: # optional
-    # Root LaTeX file(s) to compile
-    root_file: 
-    # Working directory for the compilation process
-    working_directory: # optional
-    # Change to each root file's directory before compilation
-    work_in_root_file_dir: # optional, default is false
-    # Continue building remaining documents even if some fail
-    continue_on_error: # optional, default is false
-    # LaTeX compiler to use
-    compiler: # optional, default is latexmk
-    # Additional arguments passed to the LaTeX compiler
-    args: # optional, default is -pdf -file-line-error -halt-on-error -interaction=nonstopmode
-    # Additional system packages to install
-    extra_system_packages: # optional
-    # Extra font files to install
-    extra_fonts: # optional
-    # Bash commands to execute before compilation
-    pre_compile: # optional
-    # Bash commands to execute after compilation
-    post_compile: # optional
-    # Enable shell-escape for latexmk
-    latexmk_shell_escape: # optional, default is false
-    # Use LuaLaTeX engine with latexmk
-    latexmk_use_lualatex: # optional, default is false
-    # Use XeLaTeX engine with latexmk
-    latexmk_use_xelatex: # optional, default is false
+name: Build LaTeX PDF
+
+on:
+  push:
+    branches:
+      - main # 你的分支名，如果是 master 请改成 master
+
+jobs:
+  build-latex:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. 先拉取你的代码仓库
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. 下面就是你刚才复制的那段代码（去掉了开头的 -，因为它已经在 steps 列表里了）
+      - name: GitHub Action for LaTeX
+        uses: xu-cheng/latex-action@v4
+        with:
+          # 【重要】把 main.tex 改成你实际的 tex 主文件名！
+          root_file: main.tex
           
+          # 如果你的中文论文报错找不到字体，可以把下面这行前面的 # 删掉
+          # extra_system_packages: "fonts-noto-cjk"
+          
+          # 如果你需要用 xelatex 编译，取消下面这行的注释
+          # latexmk_use_xelatex: true
