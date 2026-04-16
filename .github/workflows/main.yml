@@ -1,29 +1,17 @@
-name: Build LaTeX PDF
-
-on:
-  push:
-    branches:
-      - main  # 根据你的分支名调整
-
+name: Build LaTeX document
+on: [push]
 jobs:
-  build-latex:
+  build_latex:
     runs-on: ubuntu-latest
-    
     steps:
-      # 1. 拉取代码
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      # 2. 编译 LaTeX（你之前的步骤）
-      - name: GitHub Action for LaTeX
+      - name: Set up Git repository
+        uses: actions/checkout@v6
+      - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v4
         with:
           root_file: main.tex
-          # 其他配置（如 pre_compile 等）保持不变
-
-      # 3. 上传生成的 PDF（新增步骤）
-      - name: Upload PDF
-        uses: actions/upload-artifact@v4
+      - name: Upload PDF file
+        uses: actions/upload-artifact@v6
         with:
           name: PDF
           path: main.pdf
