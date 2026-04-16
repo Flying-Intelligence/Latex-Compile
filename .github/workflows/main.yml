@@ -1,17 +1,35 @@
 name: Build LaTeX document
 on: [push]
+# 添加权限声明，允许 action-gh-release 创建 Release
+permissions:
+  contents: write 
+
 jobs:
   build_latex:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v6
+      
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v4
         with:
           root_file: main.tex
+      
       - name: Upload PDF file
         uses: actions/upload-artifact@v6
         with:
           name: PDF
           path: main.pdf
+
+      # 新增的发布 Release 步骤
+      - name: Release PDF
+        uses: softprops/action-gh-release@v2
+        with:
+          # 指定要上传的文件路径
+          files: main.pdf
+          # 可选：设置 Release 的名称（例如使用 commit 的 SHA 短码）
+          tag_name: ${{ github.sha }}
+          name: Release ${{ github.sha }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
