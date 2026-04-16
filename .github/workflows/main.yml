@@ -1,4 +1,4 @@
-            - name: GitHub Action for LaTeX
+- name: GitHub Action for LaTeX
   # You may pin to the exact commit or the version.
   # uses: xu-cheng/latex-action@6549dc21effb2730855a1281407ecfcececc6c1b
   uses: xu-cheng/latex-action@v4
